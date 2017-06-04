@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  App:
+    container_name: laravel_app_01
+    image: ikasetebo/laravel:angular-1.00
+    networks:
+      app:
+        ipv4_address: 172.19.0.8
+#      cache:
+#        ipv4_address: 172.20.0.8
+
+    pid: 'host'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - D:\Repositories\Docker\practice-app\shared:/shared/
+      - D:\Repositories\Docker\practice-app\nginx-conf\:/etc/nginx/
+      - D:\Repositories\Docker\practice-app\app:/usr/share/nginx/html
+      - D:\Repositories\Docker\practice-app\php-conf\fpm\:/etc/php/7.1/fpm/
+    depends_on:
+      - DB
+  DB:
+      container_name: database
+      image: mysql:8.0
+      networks:
+        app:
+          ipv4_address: 172.19.0.2
+      environment:
+        - MYSQL_ROOT_PASSWORD='secret'
+  Redis:
+       container_name: redis
+       image: redis:3.2.0
+       networks:
+         app:
+           ipv4_address: 172.19.0.3
+       depends_on:
+         - App
+  Adminer:
+        container_name: adminer
+        image: ikasetebo/adminer:v1.10
+        ports:
+          - '8080:80'
+        networks:
+           app:
+             ipv4_address: 172.19.0.4
+        depends_on:
+          - DB
+
+networks:
+  app:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
+#  cache:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.20.0.0/16
+
