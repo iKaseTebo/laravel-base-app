@@ -2,7 +2,7 @@
 .idea/
 nginx-conf/ssl/*
 shared/*
-
+database/mysql/*
 
 
 
