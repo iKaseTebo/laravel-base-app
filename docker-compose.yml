@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    container_name: laravel_app_03
+    container_name: laravel_app_04
     image: ikasetebo/laravel:angular-1.00
     networks:
       - app_bridge
@@ -12,14 +12,14 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - D:\Repositories\Docker\practice-app\shared:/shared/
+      - D:\Repositories\Docker\practice-app\shared\:/shared/
       - D:\Repositories\Docker\practice-app\nginx-conf\:/etc/nginx/
-      - D:\Repositories\Docker\practice-app\app:/usr/share/nginx/html
+      - D:\Repositories\Docker\practice-app\app\:/usr/share/nginx/html
       - D:\Repositories\Docker\practice-app\php-conf\fpm\:/etc/php/7.1/fpm/
     depends_on:
       - db
   db:
-      container_name: database_03
+      container_name: database_04
       image: mysql:8.0
       ports:
         - '3306:3306'
@@ -31,14 +31,14 @@ services:
         - MYSQL_ROOT_PASSWORD=secret
         - MYSQL_USER=root
   redis:
-       container_name: redis_03
+       container_name: redis_04
        image: redis:3.2.0
        networks:
          - cache
        depends_on:
          - app
   adminer:
-        container_name: adminer_03
+        container_name: adminer_04
         image: ikasetebo/adminer:v1.10
         ports:
           - '8080:80'
